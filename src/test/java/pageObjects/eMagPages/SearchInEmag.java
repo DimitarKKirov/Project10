@@ -1,7 +1,10 @@
-package pageObjectsEMag.eMagPages;
+package pageObjects.eMagPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
+import java.util.Random;
 
 
 public class SearchInEmag extends EmagRegularElements {
@@ -20,6 +23,8 @@ public class SearchInEmag extends EmagRegularElements {
         searchButton.click();
     }
 
+    //returning the web element found by its exact name
+    //name must be passed as an argument, fot example Фигура Funko - Harry Potter - Dumbledore with Wand POP! Movies
     public WebElement findSearchResult(String name) {
 
         return driver.findElement(By.xpath("//div[@data-name=\"" + name + "\"]"));
@@ -28,11 +33,9 @@ public class SearchInEmag extends EmagRegularElements {
 
     public void addToFavorites() {
 
-        WebElement favorites = driver.findElement(By.xpath("//button[@class=\"add-to-favorites btn btn-xl btn-default btn-icon btn-block gtm_t95ovv\"]"));
+        WebElement favorites = driver.findElement(By.xpath("//i[@class=\"em em-fav gtm_t95ovv\"]"));
         favorites.click();
     }
-
-
 
 
 }

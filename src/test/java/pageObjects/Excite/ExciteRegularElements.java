@@ -1,10 +1,8 @@
-package pageObjectsEMag.eMagPages;
+package pageObjects.Excite;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import paths.DriverSwitchBrowser;
@@ -13,9 +11,10 @@ import java.io.*;
 import java.util.Properties;
 import java.util.Set;
 
-public class EmagRegularElements implements DriverSwitchBrowser {
+public abstract class ExciteRegularElements implements DriverSwitchBrowser {
 
-    Actions action;
+
+    private String nextTab;
     public static WebDriver driver;
     private JavascriptExecutor scroll = (JavascriptExecutor) driver;
     private static String browserName;
@@ -32,7 +31,7 @@ public class EmagRegularElements implements DriverSwitchBrowser {
 
     //setting the driver
     private static void setDriver(WebDriver driver) {
-        EmagRegularElements.driver = driver;
+        ExciteRegularElements.driver = driver;
     }
 
     //method for loading the driver based on the name given to the previous method
@@ -91,10 +90,6 @@ public class EmagRegularElements implements DriverSwitchBrowser {
         return new WebDriverWait(driver, timeOut);
     }
 
-    //locating the eMag logo (because the link given from gherkin test may be different)
-    public WebElement getImg() {
-        return driver.findElement(By.xpath("//img[@alt=\"eMAG\"]"));
-    }
 
     //finding the title using the driver function
     public String getPageTitle() {
@@ -111,7 +106,10 @@ public class EmagRegularElements implements DriverSwitchBrowser {
     public WebElement findElementByXpath(String xpath) {
         return driver.findElement(By.xpath(xpath));
     }
-
+    //closing current browser tab
+    public void closeBrowserTab(){
+        driver.close();
+    }
     //method for quiting the browser
     public void quitBrowser() {
         driver.quit();
@@ -135,18 +133,25 @@ public class EmagRegularElements implements DriverSwitchBrowser {
             e.printStackTrace();
         }
     }
-    public void openFavorites(){
-        WebElement favoritesPage = driver.findElement(By.xpath("//i[@class=\"em em-heart navbar-icon\"]"));
-        action = new Actions(driver);
-        action.moveToElement(favoritesPage);
-        favoritesPage.click();
-    }
-    public void scrollPageBySetPixels(String pixels){
+    public String switchToNextTab() {
+        //getting all windows
+        Set handler = driver.getWindowHandles();
 
-        scroll.executeScript("window.scrollBy(0,"+pixels+") ");
-    }
-    public WebElement itemsInFavorites(String name) {
+        //getting the current window name
+        String currentTab = driver.getWindowHandle();
 
-        return driver.findElement(By.xpath("//a[@title=\"" + name + "\"]"));
+        //removing the current window from the Set
+        handler.remove(currentTab);
+
+        Object secondTab = handler.iterator().next();
+
+        if (currentTab != secondTab) {
+            nextTab = (String) secondTab;
+
+        }
+        return nextTab;
+    }
+    public void switchToTab(String tab){
+        driver.switchTo().window(tab);
     }
 }

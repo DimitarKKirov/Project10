@@ -1,4 +1,4 @@
-package pageObjectsEMag.eMagPages;
+package pageObjects.eMagPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

@@ -1,7 +1,7 @@
 package eMagManagers;
 
-import pageObjectsEMag.eMagPages.LoginToEmag;
-import pageObjectsEMag.eMagPages.SearchInEmag;
+import pageObjects.eMagPages.LoginToEmag;
+import pageObjects.eMagPages.SearchInEmag;
 
 public class EMagPageManager {
 
