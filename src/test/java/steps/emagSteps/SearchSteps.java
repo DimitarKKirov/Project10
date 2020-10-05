@@ -94,7 +94,9 @@ public class SearchSteps {
         emag.addItemToBasket().click();
         emag.createWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//i[@class=\"em em-cart2 navbar-icon\"]")));
         emag.openCart();
-        Assert.assertEquals("Количка за пазаруване - eMAG.bg", emag.getPageTitle());
+        WebElement text = emag.findElementByXpath("//h1[@class=\"cart\"]");
+        String page = text.getText();
+        Assert.assertEquals("Количка за пазаруване - eMAG.bg", page);
         emag.quitBrowser();
     }
 }
