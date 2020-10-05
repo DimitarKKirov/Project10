@@ -96,7 +96,7 @@ public class SearchSteps {
         emag.openCart();
         WebElement text = emag.findElementByXpath("//h1[@class=\"cart\"]");
         String page = text.getText();
-        Assert.assertEquals("Количка за пазаруване - eMAG.bg", page);
+        Assert.assertEquals("Количка за пазаруване", page);
         emag.quitBrowser();
     }
 }
