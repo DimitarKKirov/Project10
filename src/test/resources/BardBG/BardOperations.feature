@@ -1,5 +1,5 @@
 @Show
-Feature:
+Feature: Bard
 
   Background:
     Given the user is on "https://www.bard.bg"
