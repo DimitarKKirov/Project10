@@ -18,8 +18,7 @@ public class SearchSteps {
     public void openEmag(String link) {
         SearchInEmag emag = MasterPageManager.getMasterManager().eMagPageManager().searchInEmag();
         emag.startBrowser(link, "chrome");
-        emag.createWait(2).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@class=\"btn btn-primary js-accept gtm_h76e8zjgoo col-xs-7 col-sm-6\"]")));
-        emag.findElementByXpath("//button[@class=\"btn btn-primary js-accept gtm_h76e8zjgoo col-xs-7 col-sm-6\"]").click();
+
     }
 
     @When("user enters search criteria {string}")
@@ -52,18 +51,19 @@ public class SearchSteps {
     }
 
     @When("find and open {string}")
-    public void findAndOpenTheCorespondingItem(String nameOfItem) {
+    public void findAndOpenTheCorrespondingItem(String nameOfItem) throws InterruptedException {
+        Thread.sleep(3000);
         emag.createWait(3).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(@title,\"" + nameOfItem + "\")]")));
-        WebElement item = emag.findSearchResult(nameOfItem);
-        emag.createWait(7).until(ExpectedConditions.elementToBeClickable(item));
-        emag.createAction().moveToElement(item).moveByOffset(15, 15);
-        item.click();
+        emag.createWait(3).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(@title,\"" + nameOfItem + "\")]")));
+        emag.searchInResult(nameOfItem);
+
     }
 
     @Then("add the funko figure {string} to favorite")
     public void addItemToFavorites(String name) {
         emag.createWait(3).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@class=\"add-to-favorites btn btn-xl btn-default btn-icon btn-block gtm_t95ovv\"]")));
         emag.createWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class=\"add-to-favorites btn btn-xl btn-default btn-icon btn-block gtm_t95ovv\"]")));
+        emag.searchInResult(name);
         emag.addToFavorites();
         emag.openFavorites();
         String nameFigure = emag.itemsInFavorites(name).getText();
@@ -90,10 +90,11 @@ public class SearchSteps {
     }
 
     @Then("the users adds the item to the basket")
-    public void the_users_adds_the_item_to_the_basket() {
+    public void addItemToBasket() {
         emag.addItemToBasket().click();
         emag.createWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//i[@class=\"em em-cart2 navbar-icon\"]")));
         emag.openCart();
         Assert.assertEquals("Количка за пазаруване - eMAG.bg", emag.getPageTitle());
+        emag.quitBrowser();
     }
 }

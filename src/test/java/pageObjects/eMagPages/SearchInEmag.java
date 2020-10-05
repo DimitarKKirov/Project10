@@ -30,7 +30,14 @@ public class SearchInEmag extends EmagRegularElements {
         return driver.findElement(By.xpath("//div[@data-name=\"" + name + "\"]"));
 
     }
-
+    public void searchInResult(String name){
+        List<WebElement> results = driver.findElements(By.xpath("//div[@class=\"card-item js-product-data\"]"));
+        for (WebElement element:results) {
+            if (element.getText().contains(name)){
+                element.click();
+            }
+        }
+    }
     public void addToFavorites() {
 
         WebElement favorites = driver.findElement(By.xpath("//i[@class=\"em em-fav gtm_t95ovv\"]"));

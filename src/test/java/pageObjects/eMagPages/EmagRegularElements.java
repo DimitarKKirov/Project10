@@ -124,10 +124,10 @@ public abstract class EmagRegularElements implements DriverSwitchBrowser {
 
     //creating a file that contains the cookies of the session when the method is used
     public void saveCookies() {
-        try {
-            File emagCookie = new File("/cookies/emagCookie.data");
-
-            FileWriter write = new FileWriter(emagCookie);
+        try {   File eCookie = new File("src\\test\\java\\resources\\properties\\cookies\\emagCookie.data");
+          String  cookie2 = eCookie.getAbsolutePath();
+                File EMagCookie = new File(cookie2);
+            FileWriter write = new FileWriter(EMagCookie);
             BufferedWriter bWriter = new BufferedWriter(write);
             for (Cookie cK : driver.manage().getCookies()) {
                 bWriter.write((cK.getName() + ";" + cK.getValue() + ";" + cK.getDomain() + ";" + cK.getPath() + ";" + cK.getExpiry() + ";" + cK.isSecure()));
@@ -162,7 +162,13 @@ public abstract class EmagRegularElements implements DriverSwitchBrowser {
     //search for item by name in favorites listing page
     public WebElement itemsInFavorites(String name) {
 
-        return driver.findElement(By.xpath("//a[@title=\"" + name + "\"]"));
+        List<WebElement>   favoritesList = driver.findElements(By.xpath("js-lists-container lists-container pad-hrz-xs"));
+        for (WebElement element:favoritesList ) {
+            if (element.getText().contains(name)){
+                return element;
+            }
+
+        }return null;
     }
     //creating List with all items in search result page for https://www.emag.bg/search/figurk
     // and clicking on one of the first 20
@@ -185,5 +191,6 @@ public abstract class EmagRegularElements implements DriverSwitchBrowser {
     public WebElement addItemToBasket(){
         return driver.findElement(By.xpath("//button[@type=\"submit\"]"));
     }
+
 
 }
